@@ -42,4 +42,4 @@ else:
     sys.stderr.write("Need an argument, either --list or --host <host>\n")
 
 conn.close()
-exit(0)
+exit()
