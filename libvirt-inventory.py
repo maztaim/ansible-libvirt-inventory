@@ -39,7 +39,7 @@ if len(sys.argv) == 2 and sys.argv[1] == '--list':
 elif len(sys.argv) == 3 and sys.argv[1] == '--host':
     print(json.dumps({'ansible_connection': 'libvirt_lxc'}))
 else:
-    sys.stderr.write("need an argument, either --list or --host <host>\n")
+    sys.stderr.write("Need an argument, either --list or --host <host>\n")
 
 conn.close()
 exit(0)
