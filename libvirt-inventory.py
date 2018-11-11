@@ -21,18 +21,18 @@ inventory['inactive'] = {}
 inventory['inactive']['vars'] = 'ansible_host=' + hostname
 inventory['ungrouped'] = {}
 
-conn = libvirt.open(host_domain)
-if conn == None:
+virthost = libvirt.open(host_domain)
+if host == None:
     sys.stderr.write('Failed to open connection to ' + host_domain, file=sys.stderr)
     exit(1)
 
-alldomains = conn.listAllDomains(0)
-activedomains = conn.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_ACTIVE)
-inactivedomains = conn.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_INACTIVE)
+alldomains = virthost.listAllDomains(0)
+activedomains = virthost.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_ACTIVE)
+inactivedomains = virthost.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_INACTIVE)
 
-inventory['all']['hosts'] = [x.name() for x in alldomains]
-inventory['active']['hosts'] = [x.name() for x in activedomains]
-inventory['inactive']['hosts'] = [x.name() for x in inactivedomains]
+inventory['all']['hosts'] = [domain.name() for domain in alldomains]
+inventory['active']['hosts'] = [domain.name() for domain in activedomains]
+inventory['inactive']['hosts'] = [domain.name() for domain in inactivedomains]
 
 if len(sys.argv) == 2 and sys.argv[1] == '--list':
     print(json.dumps(inventory, indent=4, sort_keys=True))
@@ -41,5 +41,5 @@ elif len(sys.argv) == 3 and sys.argv[1] == '--host':
 else:
     sys.stderr.write("Need an argument, either --list or --host <host>\n")
 
-conn.close()
+virthost.close()
 exit()
