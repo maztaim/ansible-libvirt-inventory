@@ -23,7 +23,7 @@ inventory['ungrouped'] = {}
 
 conn = libvirt.open(host_domain)
 if conn == None:
-    sys.stderr('Failed to open connection to ' + host_domain, file=sys.stderr)
+    sys.stderr.write('Failed to open connection to ' + host_domain, file=sys.stderr)
     exit(1)
 
 alldomains = conn.listAllDomains(0)
