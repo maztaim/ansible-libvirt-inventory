@@ -5,9 +5,12 @@ import libvirt
 import json
 import socket
 
+# We want to gather the hostname for Ansible.
 hostname = socket.gethostbyaddr(socket.gethostname())[0]
+# We want this to run on the local system only.
 host_domain = 'qemu:///system'
 
+# Initialize the dictionary.  May be a horrible way to deal with it, but I am too new to it to make it better.
 inventory = {}
 inventory['_meta'] = {}
 inventory['_meta']['hostvars'] = {}
@@ -26,6 +29,7 @@ if host == None:
     sys.stderr.write('Failed to open connection to ' + host_domain, file=sys.stderr)
     exit(1)
 
+# It took me a bit to figure out that there is no constant for all domains, just 0.  Hint was in libvirt-domain.h
 alldomains = virthost.listAllDomains(0)
 activedomains = virthost.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_ACTIVE)
 inactivedomains = virthost.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_INACTIVE)
