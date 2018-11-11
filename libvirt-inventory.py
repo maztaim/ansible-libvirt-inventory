@@ -25,7 +25,7 @@ inventory['inactive']['vars'] = 'ansible_host=' + hostname
 inventory['ungrouped'] = {}
 
 virthost = libvirt.open(host_domain)
-if host == None:
+if virthost == None:
     sys.stderr.write('Failed to open connection to ' + host_domain, file=sys.stderr)
     exit(1)
 
