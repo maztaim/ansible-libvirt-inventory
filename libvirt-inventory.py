@@ -15,14 +15,16 @@ inventory = {}
 inventory['_meta'] = {}
 inventory['_meta']['hostvars'] = {}
 inventory['all'] = {}
-inventory['all']['vars'] = 'ansible_host=' + hostname
-inventory['all']['children'] = {}
-inventory['all']['children']['ungrouped'] = {}
+inventory['all']['vars'] = {}
+inventory['all']['vars']['ansible_host'] = hostname
+inventory['all']['children'] = ['active', 'inactive', 'ungrouped']
 inventory['active'] = {}
-inventory['active']['vars'] = 'ansible_host=' + hostname
+inventory['active']['vars'] = {}
+inventory['active']['vars']['ansible_host'] = hostname
 inventory['inactive'] = {}
-inventory['inactive']['vars'] = 'ansible_host=' + hostname
-inventory['ungrouped'] = {}
+inventory['inactive']['vars'] = {}
+inventory['inactive']['vars']['ansible_host'] = hostname
+
 
 virthost = libvirt.open(host_domain)
 if virthost == None:
@@ -34,7 +36,6 @@ alldomains = virthost.listAllDomains(0)
 activedomains = virthost.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_ACTIVE)
 inactivedomains = virthost.listAllDomains(libvirt.VIR_CONNECT_LIST_DOMAINS_INACTIVE)
 
-inventory['all']['hosts'] = [domain.name() for domain in alldomains]
 inventory['active']['hosts'] = [domain.name() for domain in activedomains]
 inventory['inactive']['hosts'] = [domain.name() for domain in inactivedomains]
 
